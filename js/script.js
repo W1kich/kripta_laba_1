@@ -8,36 +8,34 @@ window.addEventListener('DOMContentLoaded', () =>{
 		shift: 0,
 		isDecrypt: " ",
 		inc: 0
-		}
+	}
 	const alphabet = "_АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ ,.";
 		
 
 	const form = document.querySelector('.form'),
 				selectButton = document.querySelectorAll('.box__buttons');
-				
+	
+function NSD (x, y) {
+	if (y > x) return NSD(y, x);
+	if (!y) return x;
+	return NSD(y, x % y);
+}
 
-function mutualSimplicity(a){
-	if(typeof(a) !== 'number'){
+
+function mutualSimplicity(a, b){
+	
+	if(typeof(a) !== 'number' || typeof(b) !== 'number'){
 		alert('Ви ввели не число, спробуйте ще раз!!!');
 		return 0;
 	}else{
-		let n = 0;
-		for(let i = 1 ; i <= a; i++){
-			if(a%i === 0){
-				n++;
-			}else{
-				continue;
-			}
-		}
-		if(n > 3){
-			alert('Ви ввели не просте число, спробуйте ще раз!!!');
-			return 0;
-		}else{
+		if(NSD(a, b) === 1){
 			return 1;
+		}else{
+			alert('Ви ввели не взаємно простоті числа, спробуйте ще раз!!!');
+			return 0;
 		}
-	}
 }
-
+}
 function CeasarsCipher(obj){
 	let result = "";
 
@@ -72,9 +70,10 @@ function CeasarsCipher(obj){
 	
 	}else{
 		return "error";
-	}
-	
+	}	
 }
+
+
 function modInverse(k, n) {
 		for (let i = 1; i < n; i++) {
 			if ((k * i) % n === 1)
@@ -90,7 +89,7 @@ function modInverse(k, n) {
  function affineEncrypt(obj) {
 		if (typeof(obj.msg) ==="string" && typeof(obj.shift) ==="number" && typeof(obj.inc) ==="number") {
 			
-			if(mutualSimplicity(obj.shift) === 0 || mutualSimplicity(obj.inc) === 0){
+			if(mutualSimplicity(obj.shift, alphabet.length) === 0){
 				return "";
 			}
 			let result = "";
@@ -116,7 +115,7 @@ function modInverse(k, n) {
 	 function affineDecrypt(obj) {
 		if (typeof(obj.msg) ==="string" && typeof(obj.shift) ==="number" && typeof(obj.inc) ==="number") {
 			
-			if(mutualSimplicity(obj.shift) === 0 && mutualSimplicity(obj.inc) === 0){
+			if(mutualSimplicity(obj.shift, alphabet.length) === 0){
 				return "";
 			}
 			let result = "";
